@@ -1,0 +1,171 @@
+ADMINISTRACION 	172.16.39.2/24
+ACADEMICO 	172.16.40.2/24
+INVESTIG 	172.16.41.2/24
+SEGURIDAD 	172.16.42.2/24
+
+ADM1 172.16.39.3/24
+ADM2 172.16.39.4/24
+
+ACA1 172.16.40.3/24
+ACA2 172.16.40.4/24
+
+INV1 172.16.41.3/24
+INV2 172.16.41.4/24
+
+SEG1 172.16.42.3/24
+SEG2 172.16.42.4/24
+
+esw1
+en
+conf t
+spanning-tree vlan 1
+spanning-tree mode rapid-pvst
+spanning-tree vlan 1 root primary
+do show spanning-tree
+
+esw2 + all sw
+en 
+conf t
+spanning-tree vlan 1
+spanning-tree mode rapid-pvst
+do show spanning-tree
+
+
+esw1
+vlan 138
+name Administracion
+vlan 238
+name Academico
+vlan 338
+name Investig
+vlan 438
+name Seguridad
+vlan 99
+name Nativa
+vlan 999
+name Blackhole
+end
+
+conf t
+do show vlan
+interface range e0/0-3
+switchport trunk encapsulation dot1q
+switchport mode trunk
+interface range e1/0-2
+switchport trunk encapsulation dot1q
+switchport mode trunk
+end
+
+conf t
+do show interfaces trunk
+vtp version 2
+vtp mode server
+vtp domain pareja38
+vtp password usac
+do write
+do show vtp status
+
+
+
+esw2
+en
+conf t
+interface range e0/0-3
+switchport trunk encapsulation dot1q
+switchport mode trunk
+interface range e1/0-2
+switchport trunk encapsulation dot1q
+switchport mode trunk
+vtp version 2
+vtp mode client
+vtp domain pareja38
+vtp password usac
+vtp mode transparent
+do write
+do show vtp status
+
+SW -> SW3-6
+en
+conf t
+interface range e0/0-1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+vtp version 2
+vtp mode client
+vtp domain pareja38
+vtp password usac
+do write
+do show vtp status
+interface e0/2
+switchport mode access
+switchport access vlan 138
+
+interface e0/3
+switchport mode access
+switchport access vlan 438
+
+interface e1/0
+switchport mode access
+switchport access vlan 238
+
+interface e1/1
+switchport mode access
+switchport access vlan 338
+
+interface range e1/2-3
+switchport mode access
+switchport access vlan 999
+do write
+
+interfaces range e0/0-1
+switchport trunk native vlan 99
+do write
+
+ESW1
+en 
+conf t
+interfaces range e0/0-3
+switchport trunk native vlan 99
+interfaces range e1/0-2
+switchport trunk native vlan 99
+do write
+spanning-tree vlan 99,138,238,338,438,999 root primary
+
+ESW2
+en 
+conf t
+interfaces range e0/0-3
+switchport trunk native vlan 99
+interfaces range e1/0-2
+switchport trunk native vlan 99
+do write
+do show interfaces trunk
+do show spanning-tree
+
+SW -> SW3-6
+en 
+conf t
+vtp version 2
+vtp mode client
+vtp domain pareja38
+vtp password usac
+do write
+interface range e0/0-1
+switchport trunk encapsulation dot1q
+switchport mode trunk
+switchport trunk native vlan 99
+do write
+interface e0/2
+switchport mode access
+switchport access vlan <vlan>
+interface e0/3
+switchport mode access
+switchport access vlan <vlan>
+do write
+do show interfaces trunk
+do show spanning-tree
+do show vlan
+
+
+
+
