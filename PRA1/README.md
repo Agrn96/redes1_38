@@ -123,13 +123,13 @@ Unidad Back UPS Pro BX 850 VA
   :pushpin: asignando las nuevas ip : ip 192.168.38.xx
   :pushpin: guardando cambios: save
 ### comandos en terminal
-![terminal](./terminal.png)
+![terminal](./Images/terminal.png)
 ### nivel 1
-![nivel1](./nivel1.png)
+![nivel1](./Images/nivel1.png)
 ### nivel 2
-![nivel1](./nivel2.png)
+![nivel1](./Images/nivel2.png)
 ### nivel 3
-![nivel3](./nivel3.png)
+![nivel3](./Images/nivel3.png)
 
 
 
