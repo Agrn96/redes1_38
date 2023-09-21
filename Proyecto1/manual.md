@@ -31,7 +31,7 @@ Creación de redes de computadoras pequeñas, configuración de VLAN y utilizaci
 ### Topologia de la red  
 
 
-![terminal](imagenesredes/topologia.png )  
+![terminal](Images/topologia.png )  
 
   
 
@@ -158,7 +158,7 @@ En la terminal:
 > * do write
 > * spanning-tree vlan 99,138,238,338,438,999 root primary
 
-![terminal](imagenesredes/sw1.png ) 
+![terminal](Images/sw1.png ) 
 
 ### Configuración de ESW2
 
@@ -170,7 +170,7 @@ En la terminal:
 > * do write
 > * do show interfaces trunk
 > * do show spanning-tree
-![terminal](imagenesredes/sw2.png ) 
+![terminal](Images/sw2.png ) 
 ### Configuración de SW y SW3-6
  
 > * conf t
@@ -195,18 +195,18 @@ En la terminal:
 > * do show spanning-tree
 > * do show vlan
 
-![terminal](imagenesredes/sw.png ) 
+![terminal](Images/sw.png ) 
 
 ## CAPTURAS DE WIRESHARK
 
 #### Administración 
-![terminal](imagenesredes/CapturaAdministracion.png ) 
+![terminal](Images/CapturaAdministracion.png ) 
 
 #### Seguridad
-![terminal](imagenesredes/Captura2.png ) 
+![terminal](Images/Captura2.png ) 
 
 #### Investigación
-![terminal](imagenesredes/Captura3.png ) 
+![terminal](Images/Captura3.png ) 
 
 
 # PRESUPUESTO
