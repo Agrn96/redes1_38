@@ -1,0 +1,213 @@
+255.255.255.252 /30
+255.255.255.248 /29
+
+VPC11
+ip 138.168.0.4/24 138.168.0.1
+save
+
+VPC12
+ip 138.178.0.4/24 138.178.0.1
+save
+
+SW7
+en
+conf t
+interface range e0/0-1
+channel-group 2 mode passive
+no shutdown
+do write
+
+SW8
+en
+conf t
+interface range e0/2-3
+channel-group 2 mode active
+no shutdown
+do write
+do show etherchannel summary
+
+SW10
+en
+conf t
+interface range e0/0-1
+channel-group 1 mode auto
+no shutdown
+do write
+
+SW9
+en
+conf t
+interface range e0/2-3
+channel-group 1 mode desirable
+no shutdown
+do write
+do show etherchannel summary
+
+CENTRAL
+no
+en
+conf t
+interface s1/0
+ip address 10.0.0.1 255.255.255.252
+no shutdown 
+do write
+interface e0/0
+ip address 138.168.1.2 255.255.255.248
+no shutdown
+do write
+interface e0/1
+ip address 138.168.2.2 255.255.255.248
+no shutdown
+do write
+
+R2
+no
+en
+conf t
+interface e0/0
+ip address 138.168.1.1 255.255.255.248
+no shutdown
+do write
+interface e0/1
+ip address 138.168.0.2 255.255.255.0
+no shutdown
+do write
+glbp 7 ip 138.168.0.1
+glbp 7 preempt
+glbp 7 priority 150
+do write
+show glbp brief
+
+R3
+no
+en
+conf t
+interface e0/0
+ip address 138.168.2.1 255.255.255.248
+no shutdown
+do write
+interface e0/1
+ip address 138.168.0.3 255.255.255.0
+no shutdown
+do write
+glbp 7 ip 138.168.0.1
+glbp 7 load-balancing round-robin
+do write
+show glbp brief
+
+
+Villa_Nueva
+no
+en
+conf t
+interface s1/0
+ip address 10.0.0.2 255.255.255.252
+no shutdown 
+do write
+interface e0/0
+ip address 138.178.1.1 255.255.255.248
+no shutdown
+do write
+interface e0/1
+ip address 138.178.2.1 255.255.255.248
+no shutdown
+do write
+
+R5
+no
+en
+conf t
+interface e0/0
+ip address 138.178.1.2 255.255.255.248
+no shutdown
+do write
+interface e0/1
+ip address 138.178.0.2 255.255.255.0
+no shutdown
+do write
+standby version 2
+standby 21 ip 138.178.0.1
+standby 21 preempt
+do write
+show standby
+
+R6
+no
+en
+conf t
+interface e0/0
+ip address 138.178.2.2 255.255.255.248
+no shutdown
+do write
+interface e0/1
+ip address 138.178.0.3 255.255.255.0
+no shutdown
+do write
+standby version 2
+standby 21 ip 138.178.0.1
+do write
+show standby
+
+
+!Configuracion de ip routes
+
+Central:
+en
+conf t
+ip route 138.168.0.0 255.255.255.0 138.168.1.1
+ip route 138.168.0.0 255.255.255.0 138.168.2.1
+ip route 138.178.0.0 255.255.255.0 10.0.0.2
+ip route 138.178.1.0 255.255.255.248 10.0.0.2
+ip route 138.178.2.0 255.255.255.248 10.0.0.2
+do write
+
+R2:
+en
+conf t
+ip route 10.0.0.0 255.255.255.252 138.168.1.2
+ip route 138.168.1.0 255.255.255.248 138.168.1.2
+ip route 138.178.0.0 255.255.255.0 138.168.1.2
+ip route 138.178.1.0 255.255.255.248 138.168.1.2
+ip route 138.178.2.0 255.255.255.248 138.168.1.2
+do write
+
+R3:
+en
+conf t
+ip route 10.0.0.0 255.255.255.252 138.168.2.2
+ip route 138.168.2.0 255.255.255.248 138.168.2.2
+ip route 138.178.0.0 255.255.255.0 138.168.2.2
+ip route 138.178.1.0 255.255.255.248 138.168.2.2
+ip route 138.178.2.0 255.255.255.0 138.168.2.2
+do write
+
+Villa_Nueva:
+en
+conf t
+ip route 138.168.0.0 255.255.255.0 10.0.0.1
+ip route 138.168.1.0 255.255.255.0 10.0.0.1
+ip route 138.168.2.0 255.255.255.0 10.0.0.1
+ip route 138.178.0.0 255.255.255.0 138.178.1.2
+ip route 138.178.0.0 255.255.255.0 138.178.2.2
+ip route 138.178.1.0 255.255.255.248 138.178.1.2
+ip route 138.178.2.0 255.255.255.248 138.178.2.2
+do write
+
+R5:
+en
+conf t
+ip route 10.0.0.0 255.255.255.252 138.178.1.1
+ip route 138.168.0.0 255.255.255.0 138.178.1.1
+ip route 138.168.1.0 255.255.255.248 138.178.1.1
+ip route 138.168.2.0 255.255.255.248 138.178.1.1
+do write
+
+R6:
+en
+conf t
+ip route 10.0.0.0 255.255.255.252 138.178.2.1
+ip route 138.168.0.0 255.255.255.0 138.178.2.1
+ip route 138.168.1.0 255.255.255.248 138.178.2.1
+ip route 138.168.2.0 255.255.255.248 138.178.2.1
+do write
+
