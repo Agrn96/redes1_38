@@ -91,12 +91,12 @@ Implementar un enrutamiento efectivo entre VLANs utilizando la técnica de "Rout
 ### TOPOLOGIA
 
 ## Servidores en Sede Central
-![texto_alternativo](./img/imag1.png) 
+![texto_alternativo](./Images/imag1.png) 
 ## Router R  sub interfaces
-![texto_alternativo](./img/img2.0.png) 
+![texto_alternativo](./Images/img2.0.png) 
 ## Salida de la red interna
-![texto_alternativo](./img/img2.png) 
+![texto_alternativo](./Images/img2.png) 
 ## CORE
-![texto_alternativo](./img/img3.png) 
+![texto_alternativo](./Images/img3.png) 
 ## Salida de la red por medio de VN_1 y VN_2
-![texto_alternativo](./img/img4.png) 
+![texto_alternativo](./Images/img4.png) 
